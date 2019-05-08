@@ -30,6 +30,6 @@ def read_temp():
 varTemp = (read_temp()) 
 listTemp = list(str(varTemp))
 
-print temp
+print varTemp
 
 
