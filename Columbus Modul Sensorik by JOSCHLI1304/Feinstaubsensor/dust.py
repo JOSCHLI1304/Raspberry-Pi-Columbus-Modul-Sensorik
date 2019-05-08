@@ -2,7 +2,6 @@
 # coding=utf-8
 # "DATASHEET": http://cl.ly/ekot
 # https://gist.github.com/kadamski/92653913a53baf9dd1a8
-
 from __future__ import print_function
 import serial, struct, sys, time, json
 
@@ -96,69 +95,32 @@ def cmd_set_id(id):
     ser.write(construct_command(CMD_DEVICE_ID, [0]*10+[id_l, id_h]))
     read_response()
 
-def getValue2.5()
-    if __name__ == "__main__":
-        while True:
-            cmd_set_sleep(0)
-            cmd_set_mode(1);
-            for t in range(15):
-                values = cmd_query_data();
-                if values is not None:
-                    print("PM2.5: ", values[0], ", PM10: ", values[1])
-                    time.sleep(2)
-                    return values[0]
+if __name__ == "__main__":
+    while True:
+        cmd_set_sleep(0)
+        cmd_set_mode(1);
+        for t in range(15):
+            values = cmd_query_data();
+            if values is not None:
+                print("PM2.5: ", values[0], ", PM10: ", values[1])
+                time.sleep(2)
 
-            # open stored data
-            with open('/var/www/html/aqi.json') as json_data:
-                data = json.load(json_data)
+        # open stored data
+        with open('/var/www/html/aqi.json') as json_data:
+            data = json.load(json_data)
 
-            # check if length is more than 100 and delete first element
-            if len(data) > 100:
-                data.pop(0)
+        # check if length is more than 100 and delete first element
+        if len(data) > 100:
+            data.pop(0)
 
-            # append new values
-            data.append({'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d.%m.%Y %H:%M:%S")})
+        # append new values
+        data.append({'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d.%m.%Y %H:%M:%S")})
 
-            # save it
-            with open('/var/www/html/aqi.json', 'w') as outfile:
-                json.dump(data, outfile)
+        # save it
+        with open('/var/www/html/aqi.json', 'w') as outfile:
+            json.dump(data, outfile)
 
-            print("Going to sleep for 1 min...")
-            cmd_set_mode(0);
-            cmd_set_sleep()
-            time.sleep(60)
-
-        
-        
-def getValue10()
-    if __name__ == "__main__":
-        while True:
-            cmd_set_sleep(0)
-            cmd_set_mode(1);
-            for t in range(15):
-                values = cmd_query_data();
-                if values is not None:
-                    print("PM2.5: ", values[0], ", PM10: ", values[1])
-                    time.sleep(2)
-                    return values[1]
-
-            # open stored data
-            with open('/var/www/html/aqi.json') as json_data:
-                data = json.load(json_data)
-
-            # check if length is more than 100 and delete first element
-            if len(data) > 100:
-                data.pop(0)
-
-            # append new values
-            data.append({'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d.%m.%Y %H:%M:%S")})
-
-            # save it
-            with open('/var/www/html/aqi.json', 'w') as outfile:
-                json.dump(data, outfile)
-
-            print("Going to sleep for 1 min...")
-            cmd_set_mode(0);
-            cmd_set_sleep()
-            time.sleep(60)
-            
+        print("Going to sleep for 1 min...")
+        cmd_set_mode(0);
+        cmd_set_sleep()
+        time.sleep(60)
